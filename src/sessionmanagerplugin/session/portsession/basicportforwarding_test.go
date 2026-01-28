@@ -64,7 +64,7 @@ func TestSetSessionHandlers(t *testing.T) {
 		acceptConnection = func(log log.T, listener net.Listener) (tcpConn net.Conn, err error) {
 			return in, nil
 		}
-		signal.Notify(signalCh, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTSTP)
+		signal.Notify(signalCh, syscall.SIGINT, syscall.SIGQUIT)
 		process, _ := os.FindProcess(os.Getpid())
 		process.Signal(syscall.SIGINT)
 		portSession.SetSessionHandlers(mockLog)

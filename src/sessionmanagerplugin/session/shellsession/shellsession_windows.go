@@ -18,7 +18,6 @@
 package shellsession
 
 import (
-	"os"
 	"time"
 
 	"github.com/aws/session-manager-plugin/src/log"

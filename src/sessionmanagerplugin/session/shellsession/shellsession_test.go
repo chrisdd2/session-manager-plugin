@@ -79,7 +79,7 @@ func TestHandleControlSignals(t *testing.T) {
 	signalCh := make(chan os.Signal, 1)
 	go func() {
 		p, _ := os.FindProcess(os.Getpid())
-		signal.Notify(signalCh, syscall.SIGINT, syscall.SIGQUIT,syscall.SIGSTOP)
+		signal.Notify(signalCh, syscall.SIGINT, syscall.SIGQUIT)
 		shellSession.handleControlSignals(logger)
 		p.Signal(syscall.SIGINT)
 		time.Sleep(200 * time.Millisecond)

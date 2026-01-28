@@ -23,6 +23,7 @@ import (
 	"github.com/aws/session-manager-plugin/src/log"
 	"github.com/aws/session-manager-plugin/src/message"
 	"github.com/aws/session-manager-plugin/src/sessionmanagerplugin/session"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 )
 
 type StandardStreamForwarding struct {
@@ -42,7 +43,7 @@ func (p *StandardStreamForwarding) IsStreamNotSet() (status bool) {
 func (p *StandardStreamForwarding) Stop() {
 	p.inputStream.Close()
 	p.outputStream.Close()
-	os.Exit(0)
+	appcontext.Shutdown()
 }
 
 // InitializeStreams initializes the streams with its file descriptors

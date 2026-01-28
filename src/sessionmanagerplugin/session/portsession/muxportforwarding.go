@@ -35,6 +35,7 @@ import (
 	"github.com/aws/session-manager-plugin/src/sessionmanagerplugin/session"
 	"github.com/aws/session-manager-plugin/src/sessionmanagerplugin/session/sessionutil"
 	"github.com/aws/session-manager-plugin/src/version"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 	"github.com/xtaci/smux"
 	"golang.org/x/sync/errgroup"
 )
@@ -87,7 +88,7 @@ func (p *MuxPortForwarding) Stop() {
 		p.muxClient.close()
 	}
 	p.cleanUp()
-	os.Exit(0)
+	appcontext.Shutdown()
 }
 
 // InitializeStreams initializes i/o streams

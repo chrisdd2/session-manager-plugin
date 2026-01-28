@@ -25,6 +25,7 @@ import (
 
 	"github.com/aws/session-manager-plugin/src/log"
 	"github.com/aws/session-manager-plugin/src/message"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 	"golang.org/x/sys/windows"
 )
 
@@ -72,7 +73,7 @@ func (d *DisplayMode) DisplayMessage(log log.T, message message.ClientMessage) {
 	if err = windows.WriteFile(d.handle, message.Payload, done, nil); err != nil {
 		log.Errorf("error occurred while writing to file: %v", err)
 		fmt.Fprintf(os.Stdout, "\nError getting the output. %s\n", err.Error())
-		os.Exit(0)
+		appcontext.Shutdown()
 	}
 }
 

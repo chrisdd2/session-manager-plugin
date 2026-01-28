@@ -23,6 +23,7 @@ import (
 
 	"github.com/aws/session-manager-plugin/src/log"
 	"github.com/aws/session-manager-plugin/src/message"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 	"github.com/eiannone/keyboard"
 )
 
@@ -55,7 +56,7 @@ var specialKeysInputMap = map[keyboard.Key][]byte{
 
 // stop restores the terminal settings and exits
 func (s *ShellSession) Stop() {
-	os.Exit(0)
+	appcontext.Shutdown()
 }
 
 // handleKeyboardInput handles input entered by customer on terminal

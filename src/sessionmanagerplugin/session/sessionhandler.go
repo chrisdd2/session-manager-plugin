@@ -29,6 +29,7 @@ import (
 	"github.com/aws/session-manager-plugin/src/message"
 	"github.com/aws/session-manager-plugin/src/retry"
 	"github.com/aws/session-manager-plugin/src/sdkutil"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 )
 
 // OpenDataChannel initializes datachannel
@@ -123,7 +124,7 @@ func (s *Session) ProcessFirstMessage(log log.T, outputMessage message.ClientMes
 
 // Stop will end the session
 func (s *Session) Stop() {
-	os.Exit(0)
+	appcontext.Shutdown()
 }
 
 // GetResumeSessionParams calls ResumeSession API and gets tokenvalue for reconnecting
@@ -186,7 +187,7 @@ func (s *Session) ResumeSessionHandler(log log.T) (err error) {
 	} else if s.TokenValue == "" {
 		log.Debugf("Session: %s timed out", s.SessionId)
 		fmt.Fprintf(os.Stdout, "Session: %s timed out.\n", s.SessionId)
-		os.Exit(0)
+		appcontext.Shutdown()
 	}
 	s.DataChannel.GetWsChannel().SetChannelToken(s.TokenValue)
 	err = s.DataChannel.Reconnect(log)

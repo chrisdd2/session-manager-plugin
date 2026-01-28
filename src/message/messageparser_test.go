@@ -674,7 +674,7 @@ func TestClientMessage_Validate(t *testing.T) {
 		SchemaVersion:  schemaVersion,
 		SequenceNumber: 1,
 		Flags:          2,
-		MessageId:      u,
+		MessageId:      *u,
 		Payload:        payload,
 		PayloadLength:  3,
 	}
@@ -712,7 +712,7 @@ func TestClientMessage_ValidateStartPublicationMessage(t *testing.T) {
 		SchemaVersion:  schemaVersion,
 		SequenceNumber: 1,
 		Flags:          2,
-		MessageId:      u,
+		MessageId:      *u,
 		Payload:        payload,
 		PayloadLength:  3,
 		MessageType:    StartPublicationMessage,
@@ -860,18 +860,26 @@ func TestPutUuid(t *testing.T) {
 
 			// Get Uuid from string
 			uuidInput, err := uuid.Parse(strInput)
+			if err != nil {
+				v := uuid.Nil.UUID()
+				uuidInput = &v
+			}
 
 			err = putUuid(
 				mockLogger,
 				tc.byteArray,
 				tc.offsetStart,
-				uuidInput)
+				*uuidInput)
 			if tc.expectation == SUCCESS {
 				assert.Nil(t, err, "%s:%s threw an error when no error was expected.", t.Name(), tc.name)
 				strExpected := tc.expected.(string)
 				uuidOut, _ := uuid.Parse(strExpected)
+				if err != nil {
+					v := uuid.Nil.UUID()
+					uuidOut = &v
+				}
 				expectedBuffer := get16ByteBuffer()
-				putUuid(mockLogger, expectedBuffer, 0, uuidOut)
+				putUuid(mockLogger, expectedBuffer, 0, *uuidOut)
 				assert.Equal(t, tc.byteArray, expectedBuffer)
 			} else if tc.expectation == ERROR {
 				assert.Error(t, err, "%s:%s did not throw an error when an error was expected.", t.Name(), tc.name)
@@ -954,7 +962,7 @@ func TestSerializeAndDeserializeClientMessage(t *testing.T) {
 		CreatedDate:    createdDate,
 		SequenceNumber: 1,
 		Flags:          2,
-		MessageId:      u,
+		MessageId:      *u,
 		Payload:        payload,
 	}
 
@@ -1050,7 +1058,7 @@ func TestDeserializeAgentMessageWithChannelClosed(t *testing.T) {
 		CreatedDate:    createdDate,
 		SequenceNumber: 1,
 		Flags:          2,
-		MessageId:      u,
+		MessageId:      *u,
 		Payload:        channelClosedJson,
 	}
 

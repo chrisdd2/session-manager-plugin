@@ -26,6 +26,7 @@ import (
 
 	"github.com/aws/session-manager-plugin/src/log"
 	"github.com/aws/session-manager-plugin/src/message"
+	"github.com/chrisdd2/session-manager-plugin/appcontext"
 )
 
 // disableEchoAndInputBuffering disables echo to avoid double echo and disable input buffering
@@ -55,7 +56,7 @@ func setState(state *bytes.Buffer) error {
 func (s *ShellSession) Stop() {
 	setState(&s.originalSttyState)
 	setState(bytes.NewBufferString("echo")) // for linux and ubuntu
-	os.Exit(0)
+	appcontext.Shutdown()
 }
 
 // handleKeyboardInput handles input entered by customer on terminal

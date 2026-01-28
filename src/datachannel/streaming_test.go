@@ -603,7 +603,7 @@ func getClientMessage(sequenceNumber int64, messageType string, payloadType uint
 		CreatedDate:    createdDate,
 		SequenceNumber: sequenceNumber,
 		Flags:          2,
-		MessageId:      messageUUID,
+		MessageId:      *messageUUID,
 		PayloadType:    payloadType,
 		Payload:        payload,
 	}
